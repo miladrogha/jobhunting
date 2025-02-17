@@ -1,0 +1,6 @@
+Flask
+Flask-Cors
+pandas
+nltk
+wordcloud
+python-dotenv
