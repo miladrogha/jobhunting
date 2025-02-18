@@ -3,17 +3,17 @@
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
+  --button-primary-hover: steelblue;
+  --button-secondary-hover: indianred;
 
   display: grid;
-  grid-template-rows: 20px 1fr 20px;
+  grid-template-rows: 5vmin 1fr 5vmin;
+  min-height: 100svh;
+  padding: 5vmin;
+  gap: 2vmin;
+  font-family: var(--font-geist-sans);
   align-items: center;
   justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,51 +22,62 @@
     --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
     --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
+    --button-primary-hover: steelblue;
+    --button-secondary-hover: indianred;
   }
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
-.main .formContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 2vmin;
-  justify-content: center;
-  align-items: center;
-}
-
-.main .formContainer form {
-  display: flex;
-  flex-direction: column;
-  gap: 2vmin;
-  justify-content: center;
-  align-items: center;
-}
-
-.formContainer form textarea {
   width: 100%;
-  background-color: slategray;
+  display: flex;
+  flex-direction: row;
+  gap: 5vmin;
+  grid-row-start: 2;
+  /* justify-content: center; */
+}
+
+.main .mainInfo,
+.main .mainInput {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2vmin;
+  justify-content: baseline;
+  align-items: center;
+  border-right: 2px solid var(--gray-alpha-200);
+  padding: 1vmin;
+}
+
+.mainInput .formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2vmin;
+  padding: 0 2vmin;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.formContainer textarea {
+  background-color: transparent;
   outline: 1px solid white;
   border: 1px solid lightgray;
   vertical-align: middle;
-  padding: 2vmin;
-  margin: auto;
+  padding: 02vmin;
+  width: 100%;
 }
 
-.formContainer form textarea::placeholder {
+.formContainer textarea:focus {
+  background-color: slategray;
+}
+
+.formContainer textarea::placeholder {
   color: #dddd;
   font-size: 12pt;
   text-align: center;
 }
 
-.main .main ol {
+.main ol {
   font-family: var(--font-geist-mono);
   padding-left: 0;
   margin: 0;
@@ -90,13 +101,12 @@
 
 .ctas {
   display: flex;
-  gap: 16px;
+  gap: 2vmin;
 }
 
 .ctas a,
 .ctas button {
   appearance: none;
-  border-radius: 128px;
   height: 48px;
   padding: 0 20px;
   border: none;
@@ -115,10 +125,11 @@ a.primary,
 button.primary {
   background: var(--foreground);
   color: var(--background);
-  gap: 8px;
+  min-width: 180px;
 }
 
-a.secondary {
+a.secondary,
+button.secondary {
   border-color: var(--gray-alpha-200);
   min-width: 180px;
 }
@@ -126,43 +137,55 @@ a.secondary {
 .footer {
   grid-row-start: 3;
   display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 1vmin;
+  color: rgba(var(--gray-rgb), 0.6);
+  font-size: 10pt;
 }
 
 .footer img {
   flex-shrink: 0;
 }
 
-.analysisContainer {
+.mainAnalysis {
+  flex: 6;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: baseline;
   align-items: center;
 }
 
-.analysisContainer .descText {
-  width: 60%;
-  margin: auto;
+.mainAnalysis .descText {
+  width: 80%;
+  margin: 2vmin;
   font-size: 10pt;
+  color: rgba(var(--gray-rgb), 0.8);
 }
 
-.analysisContainer .analysisImg {
+.mainAnalysis .analysisImg {
+  aspect-ratio: 80%;
+}
+
+.mainAnalysis h3 {
+  color: steelblue;
+  margin: 5vmin 0 2vmin 0;
+}
+
+.mainAnalysis .keywordsContainer ol {
+  display: grid;
+  grid-template-rows: repeat(3fr, 2);
+  grid-auto-flow: row;
 }
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
+  a.primary:hover,
+  button.primary:hover {
     background: var(--button-primary-hover);
     border-color: transparent;
   }
 
-  a.secondary:hover {
+  a.secondary:hover,
+  button.secondary:hover {
     background: var(--button-secondary-hover);
     border-color: transparent;
   }
@@ -193,8 +216,8 @@ a.secondary {
 
   .ctas a {
     font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
+    /* height: 40px; */
+    /* padding: 0 16px; */
   }
 
   a.secondary {

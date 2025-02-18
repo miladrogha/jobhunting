@@ -1,19 +1,24 @@
 "use client";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import axios from "axios";
 
 export default function Home() {
   const [jobDesc, setJobDesc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
+  const [frequencies, setFrequencies] = useState(null);
+
   const jobDescription = useRef(null);
 
   const handleResponse = (response) => {
-    const { jobDesc, img_data } = response.data;
+    const { jobDesc, img_data, word_freq } = response.data;
+
+    console.log(response.data["freq"]);
     // Set state or otherwise update your UI
     setJobDesc(jobDesc);
     setImageSrc(`data:image/jpeg;base64,${img_data}`);
+    setFrequencies(word_freq);
   };
 
   function handleSubmit(e) {
@@ -22,7 +27,6 @@ export default function Home() {
     axios
       .post("/api/process", { data: jobDescription.current.value })
       .then((resp) => {
-        console.log(resp.data.jobDesc);
         handleResponse(resp);
       })
 
@@ -37,16 +41,20 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
+      <h1>JOB HUNTING COMPANION</h1>
       <main className={styles.main}>
-        <h1>JOB HUNTING COMPANION</h1>
-        <ol>
-          <li>Copy and paste Job description below.</li>
-          <li>
-            Click on the <code>process</code> button.
-          </li>
-        </ol>
-        <section className={styles.formContainer}>
-          <form>
+        <div className={styles.mainInfo}>
+          <h2>Instructions</h2>
+          <ol>
+            <li>Copy and paste Job description below.</li>
+            <li>
+              Click on the <code>process</code> button.
+            </li>
+          </ol>
+        </div>
+        <div className={styles.mainInput}>
+          <h2>Job Position Information</h2>
+          <form className={styles.formContainer}>
             <label htmlFor="jobDesc">
               Copy and paste the job description in the field below
             </label>
@@ -74,71 +82,46 @@ export default function Home() {
             <button
               type="button"
               onClick={handleClear}
-              className={styles.primary}
+              className={styles.secondary}
             >
               Clear
             </button>
           </div>
-        </section>
+        </div>
+        <div className={styles.mainAnalysis}>
+          <h2>Analysis</h2>
+          {jobDesc && imageSrc && frequencies ? (
+            <Fragment>
+              <p className={styles.descText}>{jobDesc}</p>
+              <h3>Wordcloud by frequency</h3>
 
-        <section className={styles.analysisContainer}>
-          <p className={styles.descText}>{jobDesc}</p>
-          {imageSrc ? (
-            <Image
-              className={styles.analysisImg}
-              src={imageSrc}
-              alt="Word Cloud"
-              width={800}
-              height={400}
-            />
+              <Image
+                className={styles.analysisImg}
+                src={imageSrc}
+                alt="Word Cloud"
+                width={800}
+                height={400}
+              />
+
+              <div className="keywordsContainer">
+                <h3>Top 10 keywords</h3>
+                <ol>
+                  {frequencies.map((d, i) => (
+                    <li key={`${i}th_keyword`}>{d[0]}</li>
+                  ))}
+                </ol>
+              </div>
+            </Fragment>
           ) : (
-            ""
+            <p style={{ color: "gray" }}>No data to analyze</p>
           )}
-        </section>
+        </div>
       </main>
+
       <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        {" "}
+        Designed by Milad Rogha | Copyright 2025{" "}
+        <a href="https://studiorogha.com">StudioRogha</a>
       </footer>
     </div>
   );

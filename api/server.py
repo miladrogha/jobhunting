@@ -17,13 +17,15 @@ def hello_world():
 def process():
     data = request.get_json()
     job_description = data.get('data')
-    img_path = analysis.create_word_cloud(job_description)
+    img_path, freq = analysis.create_word_cloud(job_description)
+    print(freq)
     with open(img_path, "rb") as image_file:
         encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
 
     response = {
         "jobDesc": job_description,
-        "img_data": encoded_image
+        "img_data": encoded_image,
+        "word_freq": freq
     }
 
     return json.dumps(response)
