@@ -3,24 +3,25 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { Fragment, useRef, useState } from "react";
 import axios from "axios";
-
+import alphaLogo from "../../public/android-chrome-512x512.png";
 export default function Home() {
   const [jobDesc, setJobDesc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [frequencies, setFrequencies] = useState(null);
+  const [techReq, setTechReq] = useState(null);
 
   const jobDescription = useRef(null);
 
   const handleResponse = (response) => {
-    const { jobDesc, img_data, word_freq } = response.data;
+    const { jobDesc, img_data, word_freq, technical_req } = response.data;
 
     console.log(response.data["freq"]);
     // Set state or otherwise update your UI
     setJobDesc(jobDesc);
     setImageSrc(`data:image/jpeg;base64,${img_data}`);
     setFrequencies(word_freq);
+    setTechReq(technical_req);
   };
-
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -87,12 +88,13 @@ export default function Home() {
               Clear
             </button>
           </div>
+
+          <div>{/* <p className={styles.descText}>{jobDesc}</p> */}</div>
         </div>
         <div className={styles.mainAnalysis}>
           <h2>Analysis</h2>
           {jobDesc && imageSrc && frequencies ? (
             <Fragment>
-              <p className={styles.descText}>{jobDesc}</p>
               <h3>Wordcloud by frequency</h3>
 
               <Image
@@ -110,6 +112,28 @@ export default function Home() {
                     <li key={`${i}th_keyword`}>{d[0]}</li>
                   ))}
                 </ol>
+              </div>
+              <div className="modelanalysis">
+                <h3>Top 10 Technical Requirements For This Job</h3>
+                <div className={styles.alphaResponseCOntainer}>
+                  <span>
+                    {" "}
+                    <Image
+                      className={styles.analysisImg}
+                      src={alphaLogo}
+                      alt="Alpha logo"
+                      width={100}
+                      height={100}
+                    />
+                    <p>
+                      {" "}
+                      <strong>ALPHA:</strong>
+                      {techReq.response}
+                    </p>
+                  </span>
+                </div>
+
+                <p className={styles.alphaReason}>{techReq.reason}</p>
               </div>
             </Fragment>
           ) : (

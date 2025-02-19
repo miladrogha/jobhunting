@@ -5,20 +5,6 @@ from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 
 
-
-
-# def tokenize(s:str=""):
-#     tokenized_s = nltk.word_tokenize(s)
-#     # filtered_words = [w for w in tokenized_s if w.lower() not in stopwords.words] 
-#     # for w in tokenized_s:
-#     #     if w not in stopwords.words:
-#     #         filtered_words.append(w)
-    
-    
-#     print(f"{len(filtered_words)} tokens retrieved!")
-#     return filtered_words
-
-
 def create_word_cloud(s:str=""):
     wc = WordCloud(width=800, height=400, background_color=None, mode='RGBA', colormap='gray' )
     fig = plt.figure(num=0, figsize=(12,12))
