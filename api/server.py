@@ -24,17 +24,25 @@ def process():
     # technical_req = jsonify(technical_req)
 
     response = {
-        "jobDesc": job_description,
         "img_data": encoded_image,
         "word_freq": freq,
         "technical_req": technical_req
     }
-
-
     return json.dumps(response)
 
 
-# prompt = data.get('message')
+@app.route("/api/ask-alpha", methods=['POST'])
+def askAlpha():
+    data = request.get_json()
+    message = data.get('data')
+    try:
+        # Call the ask_alpha function to get a list of JSON objects from the stream
+        results = alpha.ask_alpha(message)
+        print(f'[askAlpha] Successfully received response from Alpha!')
+        return jsonify(results)
+    except Exception as e:
+        print("Error", e)
+        return str(e), 500
 
 
 if __name__ == '__main__':

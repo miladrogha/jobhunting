@@ -31,13 +31,13 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 5vmin;
+  /* gap: 5vmin; */
   grid-row-start: 2;
   /* justify-content: center; */
 }
 
 .main .mainInfo,
-.main .mainInput {
+.main .chatContainer {
   flex: 3;
   display: flex;
   flex-direction: column;
@@ -45,6 +45,103 @@
   justify-content: baseline;
   align-items: center;
   border-right: 2px solid var(--gray-alpha-200);
+  padding: 1vmin;
+}
+
+.main .chatContainer {
+  height: 80vh;
+}
+
+.main .chatContainer .conversationContainer {
+  width: 100%;
+  flex: 3;
+  align-items: center;
+  border-width: 3px;
+  padding: 1vmin;
+  background: linear-gradient(#171717, var(--background)) padding-box,
+    linear-gradient(to top, var(--background), steelblue) border-box;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  overflow-y: auto;
+}
+
+.conversationContainer div {
+  width: calc(90% - 1vmin);
+  position: relative;
+  border-radius: 6px;
+  padding: 1vmin;
+  font-family: cursive;
+  font-size: 10pt !important;
+  align-items: center;
+  min-height: 2em;
+}
+.conversationContainer div img {
+  margin-right: 1vmin;
+}
+.conversationContainer .assistant {
+  margin: 0 2vmin 2vmin 0;
+  border-style: solid;
+  background: linear-gradient(#171717, #171717) padding-box,
+    linear-gradient(to right, indianred, steelblue) border-box;
+  border: 2px solid transparent;
+  color: white;
+}
+
+.conversationContainer .user {
+  background: steelblue;
+  color: white;
+  margin: 1vmin 2vmin;
+  min-height: 2em;
+}
+
+.chatContainer .userInput {
+  position: relative;
+  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 20vh;
+  gap: 1vmin;
+  margin: 0 2vmin;
+  justify-content: space-between;
+}
+
+.chatContainer .userInput .actions {
+  flex: 1;
+}
+
+.chatContainer .userInput .messageContainer {
+  flex: 6;
+}
+
+.chatContainer form.messageContainer textarea.chatInput {
+  flex: 3;
+  width: 100%;
+  height: 100%;
+  border-width: 3px;
+  border-style: solid;
+  padding: 1vmin;
+  background: linear-gradient(#171717, #171717) padding-box,
+    linear-gradient(to right, #171717, steelblue) border-box;
+  border-radius: 12px;
+  border: 2px solid transparent;
+}
+
+.chatContainer form.messageContainer textarea.chatInput::placeholder {
+  position: relative;
+  text-align: center;
+  top: calc(50% - 1vmin);
+}
+
+.chatContainer form.messageContainer textarea.chatInput:focus::placeholder {
+  color: transparent;
+}
+
+.main .mainInput {
+  display: flex;
+  flex-direction: column;
+  gap: 2vmin;
+  justify-content: baseline;
+  align-items: center;
   padding: 1vmin;
 }
 
@@ -60,11 +157,14 @@
 
 .formContainer textarea {
   background-color: transparent;
-  outline: 1px solid white;
-  border: 1px solid lightgray;
   vertical-align: middle;
   padding: 02vmin;
   width: 100%;
+  border: 2px solid rgba(var(--gray-rgb), 0.08);
+  background: linear-gradient(#171717, var(--background)) padding-box,
+    linear-gradient(to bottom, var(--background), steelblue) border-box;
+  border-radius: 12px;
+  border: 2px solid transparent;
 }
 
 .formContainer textarea:focus {
@@ -79,11 +179,10 @@
 
 .main ol {
   font-family: var(--font-geist-mono);
-  padding-left: 0;
+  padding-left: 1em;
   margin: 0;
   font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
+  line-height: 18px;
   list-style-position: inside;
 }
 
@@ -99,13 +198,50 @@
   font-weight: 600;
 }
 
+.actions,
 .ctas {
   display: flex;
   gap: 2vmin;
 }
 
-.ctas a,
-.ctas button {
+.actions button {
+  height: 40px;
+  min-width: 180px;
+}
+
+.actions button.primary {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.actions button.secondary {
+  border-color: var(--gray-alpha-200);
+  min-width: 180px;
+}
+
+.actions button.sendButton {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-width: 3px;
+  min-width: 50px;
+  height: 100%;
+  width: 50px;
+  margin: auto;
+  /* border: 2px solid rgba(var(--gray-rgb), 0.3); */
+  background: linear-gradient(#171717, var(--background)) padding-box,
+    linear-gradient(to left, var(--background), steelblue) border-box;
+  border-radius: 12px;
+  transition: all 2s ease-out;
+  border: 2px solid transparent;
+}
+
+.actions button.sendButton .sendMessageImg {
+  position: relative;
+  left: 5px;
+  rotate: -30deg;
+}
+
+.ctas a {
   appearance: none;
   height: 48px;
   padding: 0 20px;
@@ -121,15 +257,13 @@
   font-weight: 500;
 }
 
-a.primary,
-button.primary {
+a.primary {
   background: var(--foreground);
   color: var(--background);
   min-width: 180px;
 }
 
-a.secondary,
-button.secondary {
+a.secondary {
   border-color: var(--gray-alpha-200);
   min-width: 180px;
 }
@@ -138,7 +272,7 @@ button.secondary {
   grid-row-start: 3;
   display: flex;
   gap: 1vmin;
-  color: rgba(var(--gray-rgb), 0.6);
+  color: rgba(var(--gray-rgb), 0.5);
   font-size: 10pt;
 }
 
@@ -154,12 +288,12 @@ button.secondary {
   align-items: center;
 }
 
-.mainAnalysis .descText {
+/* .mainAnalysis .descText {
   width: 80%;
   margin: 2vmin;
   font-size: 10pt;
   color: rgba(var(--gray-rgb), 0.8);
-}
+} */
 
 .mainAnalysis .analysisImg {
   aspect-ratio: 80%;
@@ -170,16 +304,25 @@ button.secondary {
   margin: 5vmin 0 2vmin 0;
 }
 
-.mainAnalysis .keywordsContainer ol {
+.mainAnalysis .keywordsContainer {
   display: grid;
   grid-template-rows: repeat(3fr, 2);
   grid-auto-flow: row;
 }
 
-.alphaResponseCOntainer {
+.keywordsContainer .modelanalysis {
+  width: 90%;
+}
+
+.alphaResponseContainer {
   border: 1px solid lightgray;
   border-radius: 2vmin;
   padding: 1vmin;
+}
+
+.alphaResponse {
+  font-family: cursive;
+  color: beige;
 }
 
 .alphaReason {
@@ -191,18 +334,39 @@ button.secondary {
   margin-bottom: 2vmin;
 }
 
+.appMessage {
+  font-size: 10pt;
+  color: gray;
+  text-align: center;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover,
   button.primary:hover {
     background: var(--button-primary-hover);
     border-color: transparent;
+    cursor: pointer;
   }
 
   a.secondary:hover,
   button.secondary:hover {
     background: var(--button-secondary-hover);
     border-color: transparent;
+    cursor: pointer;
+  }
+
+  .actions button.sendButton:hover {
+    /* background-image: linear-gradient(180deg, steelblue, indianred); */
+    position: relative;
+    min-width: none;
+    left: 50x;
+    scale: 0.95;
+    cursor: pointer;
+    background: linear-gradient(180deg, var(--background), var(--background))
+        padding-box,
+      linear-gradient(to right, steelblue, indianred) border-box;
+    border: 2px solid transparent;
   }
 
   .footer a:hover {
