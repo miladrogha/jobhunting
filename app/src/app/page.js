@@ -8,6 +8,7 @@ import sendIcon from "../../public/send.png";
 import alphaBW from "../../public/Alpha_bw.svg";
 import alphaLogo from "../../public/Alpha.svg";
 import loadingLogo from "../../public/loading.gif";
+import Nav from "./components/Nav";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -117,6 +118,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
+      <Nav />
       <h1>JOB HUNTING COMPANION</h1>
       <main className={styles.main}>
         <div className={styles.mainInfo}>

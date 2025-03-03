@@ -6,14 +6,27 @@
   --button-primary-hover: steelblue;
   --button-secondary-hover: indianred;
 
-  display: grid;
-  grid-template-rows: 5vmin 1fr 5vmin;
+  display: flex;
+  flex-direction: column;
   min-height: 100svh;
   padding: 5vmin;
-  gap: 2vmin;
+  gap: 5vmin;
   font-family: var(--font-geist-sans);
   align-items: center;
   justify-items: center;
+}
+
+.page .header {
+  display: flex;
+  /* height: 5vh; */
+  gap: 4vmin;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}
+
+.page .header h1 {
+  /* margin: 3vmin auto; */
 }
 
 @media (prefers-color-scheme: dark) {
